@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,11 +25,13 @@ public class Employee {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	@NonNull
+	@Column(nullable = false)
 	private String firstName;
 	
-	private String LastName;
+	private String lastName;
 	
 	@NonNull
+	@Column(nullable = false)
 	private String emailId;
 
 	

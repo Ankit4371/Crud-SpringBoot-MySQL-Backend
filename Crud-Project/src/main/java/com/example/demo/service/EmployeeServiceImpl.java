@@ -5,6 +5,10 @@ import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dao.EmployeeRepository;
@@ -65,6 +69,36 @@ public class EmployeeServiceImpl implements EmployeeService{
 		
 	}
 
+
+	@Override
+	public Page<Employee> findInPages(int pageNo, int pageSize) {
+		// page no starts from 0 in paginaton
+		Pageable pageable = PageRequest.of(pageNo-1, pageSize);
+		return employeeRepository.findAll(pageable);
+	}
+
+
+	@Override
+	public Page<Employee> findInPagesWithSort(int pageNo, int pageSize, String sortColumn, String sortDirection) {
+		
+		Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name())
+				? Sort.by(sortColumn).ascending() : Sort.by(sortColumn).descending();
+		
+		Pageable pageable = PageRequest.of(pageNo-1,pageSize,sort);
+		return employeeRepository.findAll(pageable);
+	}
+
+
+	@Override
+	public List<Employee> sortedColumnEmployee(String sortColumn, String sortDirection) {
+		
+		Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name())
+				? Sort.by(sortColumn).ascending() : Sort.by(sortColumn).descending();
+		
+		return employeeRepository.findAll(sort);
+	}
+
+	
 
 
 

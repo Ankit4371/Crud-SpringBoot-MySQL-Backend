@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Employee;
@@ -81,4 +83,31 @@ public class EmployeeController {
 		return new ResponseEntity<String>("Employee Deleted with ID:" + id ,HttpStatus.OK);
 	}
 	
+	@GetMapping("page/{pageNo}")
+	public ResponseEntity<List<Employee>> paginatedEmployees(@PathVariable int pageNo) {
+		int pageSize = 5;
+		Page<Employee> employeesPage = employeeService.findInPages(pageNo, pageSize);
+		List<Employee> employeesList = employeesPage.getContent();
+		return new  ResponseEntity<>(employeesList,HttpStatus.OK);
+		
+	}
+	
+	@GetMapping("page&sort/{pageNo}")
+	public ResponseEntity<List<Employee>> paginatedwithSortedEmployees(@PathVariable int pageNo,
+			@RequestParam("sortField") String sortColumn,@RequestParam("sortDirection") String sortDirection) {
+		int pageSize = 5;
+		Page<Employee> employeesPage = employeeService.findInPagesWithSort(pageNo, pageSize,sortColumn,sortDirection);
+		List<Employee> employeesList = employeesPage.getContent();
+		return new  ResponseEntity<>(employeesList,HttpStatus.OK);
+		
+	}
+	
+	@GetMapping("sort")
+	public ResponseEntity<List<Employee>> paginatedwithSortedEmployees(@RequestParam("sortField") String sortColumn,
+			@RequestParam("sortDirection") String sortDirection) {
+		int pageSize = 5;
+		List<Employee> employeesList = employeeService.sortedColumnEmployee(sortColumn,sortDirection);
+		return new  ResponseEntity<>(employeesList,HttpStatus.OK);
+		
+	}
 }
