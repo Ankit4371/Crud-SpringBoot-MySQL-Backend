@@ -2,9 +2,9 @@
 
 
 ## Key Highlights
-Spring Data Jpa
-Server Side Pagination
-MySQL- Database
+Spring Data Jpa  
+Server Side Pagination  
+MySQL- Database  
 
 
 ## Frontend of This App
