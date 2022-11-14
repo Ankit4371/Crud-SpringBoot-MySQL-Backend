@@ -2,7 +2,7 @@
 
 
 ## Key Highlights
-Spring Data JPA 
+Spring Data JPA  
 Server Side Pagination  
 MySQL- Database  
 
